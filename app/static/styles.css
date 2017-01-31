@@ -1,0 +1,810 @@
+@import url('http://fonts.googleapis.com/css?family=Lato');
+
+#map {
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    position: absolute;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, Helvetica, sans-serif;
+    overflow: auto;
+
+}
+
+::-webkit-scrollbar {
+    height: 10px;
+    overflow: visible;
+    width: 10px;
+    display: none;
+}
+
+::-webkit-scrollbar:active {
+    display: block;
+}
+
+::-webkit-scrollbar-button {
+    height: 20px;
+    width: 20px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-track {
+    display: none;
+}
+
+::-webkit-scrollbar-track:hover {
+    display: none;
+}
+
+::-webkit-scrollbar-track:active {
+    display: block;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #cccccc;
+    background-clip: padding-box;
+    border: solid transparent;
+    border-width: 1px 1px 1px 0px;
+    min-height: 28px;
+    padding: 100px 0 0;
+    box-shadow: inset 1px 1px 0 #e6e6e6, inset 0 -1px 0 #eeeeee
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #999999;
+    box-shadow: inset 1px 1px 1px #c0c0c0
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: #808080;
+    box-shadow: inset 1px 1px 3px #a6a6a6
+}
+
+.map-control {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+    font-family: 'Roboto', 'sans-serif';
+    margin: 10px;
+    /* Hide the control initially, to prevent it from appearing
+       before the map loads. */
+    position: absolute;
+    width: 80px;
+}
+
+/* Display the control once it is inside the map. */
+#map .map-control {
+    display: block;
+}
+
+.selector-control {
+    font-size: 14px;
+    line-height: 30px;
+    padding-left: 5px;
+    padding-right: 5px;
+    position: absolute;
+    z-index: 5;
+    width: 10%;
+    box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+}
+
+#search {
+    width: 300px;
+    height: 38px;
+    z-index: 15;
+    margin-top: 5px;
+    margin-left: 5px;
+    position: absolute;
+    background-color: white;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+    outline: none;
+
+}
+
+#search-div {
+    margin: 8px 0 0;
+
+}
+
+#search-text {
+    border: 0;
+    width: 70%;
+    outline: none;
+    margin-left: 10px;
+    font-size: medium;
+    float: left;
+    margin-top: 9px;
+
+}
+
+::-webkit-input-placeholder {
+    color: #d2d5db
+}
+
+:-ms-input-placeholder {
+    color: #d2d5db
+}
+
+::-moz-placeholder {
+    color: #d2d5db
+}
+
+:-moz-placeholder {
+    color: #d2d5db
+}
+
+#places {
+    height: 80%;
+    width: 292px;
+    margin-top: 48px;
+    margin-left: 5px;
+    background-color: white;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    position: absolute;
+    z-index: 20;
+    overflow: scroll;
+    box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+    padding: 4px;
+
+}
+
+.header {
+    height: 30px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    background-color: #4285F4;
+    color: white;
+    text-align: center;
+    line-height: 30px;
+    width: 292px;
+
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset;
+}
+
+input.middle:focus {
+    outline-width: 0;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer
+}
+
+#search-div {
+    height: 80%;
+    width: 292px;
+    margin-top: 48px;
+    margin-left: 5px;
+    background-color: white;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    position: absolute;
+    z-index: 20;
+    overflow: scroll;
+    box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+    padding: 4px;
+}
+
+#description {
+    height: 80%;
+    width: 292px;
+    margin-top: 48px;
+    margin-left: 5px;
+    background-color: white;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    position: absolute;
+    z-index: 20;
+    overflow: auto;
+    box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+    padding: 4px;
+
+}
+
+#header-text {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.tabs {
+    transform: translateX(-50%) rotate(90deg);
+    background-color: white;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    z-index: 5;
+    position: absolute;
+    margin-left: 310px;
+    margin-top: 100px;
+    height: 30px;
+    box-shadow: 2px 0 2px rgba(33, 33, 33, 0.4);
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+
+}
+
+.describe {
+    margin-top: 10px;
+    margin-left: 10px;
+
+}
+
+#phone {
+    margin-left: 11px;
+}
+
+.text {
+    margin-left: 10px;
+    font-size: 13px;
+    margin-top: 2px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.image {
+    float: left;
+    margin-top: 3px;
+}
+
+a {
+    color: black;
+}
+
+a:hover {
+    color: #4285F4;
+}
+
+#website {
+    cursor: pointer;
+}
+
+.result {
+}
+
+.ui-autocomplete {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 292px;
+}
+
+.places-list-item {
+    list-style-type: none;
+    width: 100%;
+    font-size: 15px;
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    border-bottom: 1px solid #e4e6e8;
+    background: url('../static/pictures/car-marker.png') no-repeat left;
+    -webkit-background-size: 15px, auto;
+    background-size: 15px, auto;
+    cursor: pointer;
+
+}
+
+.ui-menu-item {
+    list-style-type: none;
+    width: 100%;
+    font-size: 15px;
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    border-bottom: 1px solid #e4e6e8;
+    background: url('../static/pictures/car-marker.png') no-repeat left;
+    -webkit-background-size: 15px, auto;
+    background-size: 15px, auto;
+    cursor: pointer;
+
+}
+
+#menu-button {
+    float: left;
+    padding-left: 10px;
+    padding-top: 1px;
+
+}
+
+.places-list-item:hover {
+    outline: none;
+    background: #f5f9ff url('../static/pictures/car-marker.png') no-repeat left;
+    -webkit-background-size: 15px, auto;
+    background-size: 15px, auto;
+
+}
+
+.ui-menu-item:hover {
+    outline: none;
+    background: #f5f9ff url('../static/pictures/car-marker.png') no-repeat left;
+    -webkit-background-size: 15px, auto;
+    background-size: 15px, auto;
+
+}
+
+.settings-pane {
+    position: absolute;
+    z-index: 100;
+    left: -340px;
+    width: 320px;
+    height: 100%;
+    background-color: white;
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    transition-property: -webkit-transform;
+    transition-property: transform;
+    -webkit-transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+}
+
+.settings-pane-open {
+    -webkit-transform: translateX(340px);
+    transform: translateX(340px);
+    box-shadow: 0 -1px 24px rgba(0, 0, 0, 0.4);
+
+}
+
+#back-button {
+    float: right;
+    padding-right: 10px;
+    padding-top: 8px;
+
+}
+
+.settings-header {
+
+}
+
+.ui-state-focus {
+    outline: none;
+    background: #f5f9ff url('../static/pictures/car-marker.png') no-repeat left;
+    -webkit-background-size: 15px, auto;
+    background-size: 15px, auto;
+}
+
+#places-load {
+    width: 100%;
+    height: 90%;
+    display: block;
+    margin: 0;
+    background: url('../static/pictures/loading.gif') no-repeat center;
+    background-size: 40px;
+
+}
+
+.bottom-tab {
+    margin-top: 115px
+
+}
+
+.accordion {
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 0;
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+    border-top: 1px solid #e4e6e8;
+    border-bottom: 0;
+}
+
+.accordion > ul > li,
+.accordion-title,
+.accordion-content,
+.accordion-separator {
+    float: none;
+}
+
+.accordion > ul > li {
+    background-color: #46c3ff;
+    margin-right: -0px;
+    margin-bottom: -77.5%;
+    z-index: 1;
+}
+
+.accordion-select:checked ~ .accordion-separator {
+    margin-right: 0;
+    margin-bottom: 77.5%;
+}
+
+.accordion-title,
+.accordion-select {
+    background-color: #ffffff;
+    color: #000000;
+    width: 320px;
+    height: 45px;
+    font-size: 15px;
+}
+
+.accordion-title span {
+    margin-bottom: 20px;
+    margin-left: 23px;
+}
+
+.accordion-select:hover ~ .accordion-title,
+.accordion-select:checked ~ .accordion-title {
+    background-color: #4285f4;
+    color: white;
+}
+
+.accordion-title span {
+    transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -ms-writing-mode: lr-tb;
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+    margin-bottom: 0;
+    line-height: 45px;
+}
+
+.accordion-content {
+    background-color: #ffffff;
+    color: #000000;
+    height: 230px;
+    width: 280px;
+    padding: 10px 20px 10px 20px;
+}
+
+.accordion-title,
+.accordion-select:checked ~ .accordion-content {
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+/* Do not change following properties, they aren't
+generated automatically and are common for each slider. */
+.accordion {
+    overflow: hidden;
+}
+
+.accordion > ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 101%;
+}
+
+.accordion > ul > li,
+.accordion-title {
+    position: relative;
+}
+
+.accordion-select {
+    cursor: pointer;
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    margin: 0;
+    z-index: 1;
+}
+
+.accordion-title span {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.accordion-content {
+    position: relative;
+    overflow: auto;
+}
+
+.accordion-separator {
+    transition: margin 0.3s ease 0.1s;
+    -o-transition: margin 0.3s ease 0.1s;
+    -moz-transition: margin 0.3s ease 0.1s;
+    -webkit-transition: margin 0.3s ease 0.1s;
+}
+
+*:focus {
+    outline: none;
+}
+
+label {
+    font-size: 14px;
+    margin-top: 50px;
+}
+
+.new,
+.underline {
+    border: 0;
+    border-bottom: 2px solid #d2d5db;
+    -webkit-transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+
+}
+
+.icon-a {
+    height: 10px;
+    width: 10px
+}
+
+.new:focus {
+    border-bottom: 2px solid #4285f4;
+}
+
+#new-address,
+#new-website,
+#notes {
+    width: 261px;
+}
+
+.new {
+    margin-top: 20px;
+}
+
+.settings-pane-button {
+    background-color: #4286f4;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 13px;
+    padding: 8px;
+    text-decoration: none;
+    border: 0;
+    margin-top: 5px;
+    width: 100%;
+}
+
+.new-error {
+    border-bottom: 2px solid red;
+}
+
+.settings-dim {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: black;
+
+}
+
+.settings-true {
+    opacity: 0.3;
+    z-index: 99;
+    transition-property: opacity;
+    transition-duration: 0.6s;
+
+}
+
+.settings-false {
+    transition-property: opacity;
+    transition-duration: 0.6s;
+    opacity: 0;
+    z-index: 0;
+}
+
+#name {
+    width: 127px;
+}
+
+#new-phone {
+    width: 127px;
+}
+
+.pending {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 0;
+    opacity: 0;
+}
+
+.pending-true {
+    opacity: 0.3;
+    background: url(pictures/loading.gif) center no-repeat;
+    z-index: 999;
+
+}
+
+.success-text {
+    font-size: 12px;
+    color: #01ff00;
+    display: none;
+}
+
+.error-text {
+    font-size: 12px;
+    color: #ff0100;
+    display: none;
+}
+
+#up {
+    background: url(pictures/Up.png) center no-repeat;
+}
+
+#down {
+    background: url(pictures/Down.png) center no-repeat;
+}
+
+.spinner {
+    border: 0;
+}
+
+.underline-focus {
+    border-bottom: 2px solid #4285f4;
+}
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 17px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    display: none;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    margin-top: 0;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 13px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #4285f4;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #4285f4;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(13px);
+    -ms-transform: translateX(13px);
+    transform: translateX(13px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+#filter-table td {
+    padding-top: 10px;
+}
+
+.container {
+	display: block;
+    min-height: 40px;
+	width: 100%;
+	padding: 0;
+}
+
+.container .radio {
+	list-style: none;
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding-left: 10px;
+}
+
+.radio li {
+	color: #AAAAAA;
+	display: inline;
+	position: relative;
+	float: left;
+	width: 120px;
+	height: 20px;
+}
+
+.radio li input[type=checkbox] {
+	position: absolute;
+	visibility: hidden;
+}
+
+.radio li label {
+	display: block;
+	position: absolute;
+	font-weight: 300;
+	font-size: 13px;
+	height: 15px;
+    margin-top: 0;
+    padding-left: 20px;
+    padding-top: 0.1em;
+	z-index: 9;
+    width: 80px;
+	cursor: pointer;
+	-webkit-transition: all 0.15s linear;
+}
+
+.radio li:hover label {
+	color: #8f8f8f;
+}
+
+.radio li .check {
+	display: block;
+	position: absolute;
+	border: 3px solid #AAAAAA;
+	border-radius: 100%;
+	height: 9px;
+	width: 9px;
+	z-index: 5;
+	transition: border .15s linear;
+	-webkit-transition: border .15s linear;
+}
+
+.radio li:hover .check {
+	border: 3px solid #8f8f8f;
+}
+
+.radio li .check::before {
+	display: block;
+	position: absolute;
+	content: '';
+	border-radius: 100%;
+	height: 5px;
+	width: 5px;
+	top: 2px;
+	left: 2px;
+	margin: auto;
+	transition: background 0.15s linear;
+	-webkit-transition: background 0.15s linear;
+}
+
+input[type=checkbox]:checked ~ .check {
+	border: 3px solid #4285f4;
+}
+
+input[type=checkbox]:checked ~ .check::before {
+	background: #4285f4;
+}
+
+input[type=checkbox]:checked ~ label {
+	font-weight: 500;
+    color: black;
+}

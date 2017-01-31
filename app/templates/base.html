@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% if title %}
+    <title>{{ title }} - Names</title>
+    {% else %}
+    <title>Redirecting...</title>
+    {% endif %}
+
+</head>
+<body>
+    <div id="navbar">
+        <a href="{{ url_for('index') }}">Home</a>|
+        <a href="{{ url_for('timmy') }}">ii</a>|
+        <a href="{{ url_for('index') }}">Michael</a>|
+        <a href="{{ url_for('index') }}">Joshua</a>
+    </div>
+    <div id="main-container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
