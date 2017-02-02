@@ -1,11 +1,27 @@
-from migrate.versioning import api
-from config import SQLALCHEMY_DATABASE_URI
-from config import SQLALCHEMY_MIGRATE_REPO
+import csv
 from app import db
-import os.path
-db.create_all()
-if not os.path.exists(SQLALCHEMY_MIGRATE_REPO):
-    api.create(SQLALCHEMY_MIGRATE_REPO, 'database repository')
-    api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO)
-else:
-    api.version_control(SQLALCHEMY_DATABASE_URI, SQLALCHEMY_MIGRATE_REPO, api.version(SQLALCHEMY_MIGRATE_REPO))
+from app import models
+import json
+
+f = open('RC Finder Data Set.csv', 'rt')
+try:
+    reader = csv.reader(f)
+    next(reader)
+    data = {}
+    a = 0
+    for row in reader:
+        a += 1
+        data[str(a)] = row
+    db.drop_all()
+    db.create_all()
+    for line in data.values():
+        values = []
+        for value in line:
+            values.append(value)
+        t = models.RCTrack(name=values[0], address=values[1] + ', ' + values[2] + ', ' + values[3] + ', ' + values[4],
+                           lat=values[5], lng=values[6], phone=values[7], website=values[8], tags=values[9],
+                           changed=values[10], notes=values[11])
+        db.session.add(t)
+        db.session.commit()
+finally:
+    f.close()
