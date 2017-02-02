@@ -74,7 +74,7 @@ function initMap(locations, things) {
 
 
             $('#places-load').hide();
-            for (i = 0; i < '12'; i++) {
+            for (i = 0; i < '25'; i++) {
                 $("#places-list").append('<li class="places-list-item" id="' + locations[i].name + '">' + locations[i].name + '</li>');
 
             }
