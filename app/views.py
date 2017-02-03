@@ -1,7 +1,7 @@
 import smtplib
 
 from flask import jsonify
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, url_for
 
 from app import app
 from .models import RCTrack, Requests
@@ -15,8 +15,6 @@ def before_request():
         else:
             url = request.url.replace('http://', 'https://', 1)
             code = 301
-            response = request.url
-            response.set_cookie('https', 'true')
             return redirect(url, code=code)
 
 
