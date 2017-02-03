@@ -10,9 +10,14 @@ from .models import RCTrack, Requests
 @app.before_request
 def before_request():
     if request.url.startswith('http://'):
-        url = request.url.replace('http://', 'https://', 1)
-        code = 301
-        return redirect(url, code=code)
+        if request.cookies.get('https'):
+            pass
+        else:
+            url = request.url.replace('http://', 'https://', 1)
+            code = 301
+            response = request.url
+            response.set_cookie('https', 'true')
+            return redirect(url, code=code)
 
 
 @app.route('/send_data', methods=['POST'])
