@@ -5,15 +5,6 @@ from flask import jsonify
 from flask import render_template, request, redirect
 from .models import RCTrack, Requests
 
-
-@app.before_request
-def before_request():
-    if request.url.startswith('https://'):
-        url = request.url.replace('https://', 'http://', 1)
-        code = 301
-        return redirect(url, code=code)
-
-
 @app.route('/send_data', methods=['POST'])
 def send_data():
     t = RCTrack.query.all()
