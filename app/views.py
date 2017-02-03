@@ -1,18 +1,18 @@
 import smtplib
 
-from app import app, on_heroku
 from flask import jsonify
 from flask import render_template, request, redirect
+
+from app import app
 from .models import RCTrack, Requests
 
 
 @app.before_request
 def before_request():
-    if on_heroku:
-        if request.url.startswith('http://'):
-            url = request.url.replace('http://', 'https://', 1)
-            code = 301
-            return redirect(url, code=code)
+    if request.url.startswith('http://'):
+        url = request.url.replace('http://', 'https://', 1)
+        code = 301
+        return redirect(url, code=code)
 
 
 @app.route('/send_data', methods=['POST'])
