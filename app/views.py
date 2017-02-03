@@ -8,9 +8,10 @@ from .models import RCTrack, Requests
 
 @app.before_request
 def before_request():
-    app.config.update(dict(
-        PREFERRED_URL_SCHEME='http'
-    ))
+    if request.url.startswith('https://'):
+        url = request.url.replace('https://', 'http://', 1)
+        code = 301
+        return redirect(url, code=code)
 
 
 @app.route('/send_data', methods=['POST'])
