@@ -15,7 +15,7 @@ def before_request():
         else:
             url = request.url.replace('http://', 'https://', 1)
             code = 301
-            return redirect(url, code=code)
+            redirect(url, code=code)
 
 
 @app.route('/send_data', methods=['POST'])
