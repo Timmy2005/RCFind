@@ -2,16 +2,8 @@ import smtplib
 
 from app import app
 from flask import jsonify
-from flask import render_template, request, redirect
+from flask import render_template, request
 from .models import RCTrack, Requests
-
-
-@app.before_request
-def before_request():
-    if request.url.startswith('https://'):
-        url = request.url.replace('http://', 'https://', 1)
-        code = 301
-        return redirect(url, code=code)
 
 
 @app.route('/send_data', methods=['POST'])
