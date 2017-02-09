@@ -3,19 +3,20 @@ import smtplib
 from flask import jsonify
 from flask import render_template, request, redirect, url_for
 
-from app import app
+from app import app, on_heroku
 from .models import RCTrack, Requests
 
 
 @app.before_request
 def before_request():
-    if request.url.startswith('http://'):
-        if request.cookies.get('https'):
-            pass
-        else:
-            url = request.url.replace('http://', 'https://', 1)
-            code = 301
-            redirect(url, code=code)
+    if on_heroku:
+        if request.url.startswith('http://'):
+            if request.cookies.get('https'):
+                pass
+            else:
+                url = request.url.replace('http://', 'https://', 1)
+                code = 301
+                redirect(url, code=code)
 
 
 @app.route('/send_data', methods=['POST'])

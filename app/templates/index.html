@@ -17,7 +17,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-<div class="settings-false settings-dim"></div>
+<div class="settings-dim" id="test"></div>
 <div class="settings-pane">
     <div class="settings-header">
         <img src="{{ logo }}">
@@ -98,14 +98,14 @@
                                 <ul class="radio">
                                     <li>
                                         <input type="checkbox" id="shop-checked" name="selector" checked>
-                                        <label for="shop-checked" id="shop">Shop</label>
+                                        <label for="shop-checked" id="shop" onclick="checkUncheck(this)">Shop</label>
 
                                         <div class="check"></div>
                                     </li>
 
                                     <li>
                                         <input type="checkbox" id="track-checked" name="selector" checked>
-                                        <label for="track-checked" id="track">Track</label>
+                                        <label for="track-checked" id="track" onclick="checkUncheck(this)">Track</label>
 
                                         <div class="check">
                                             <div class="inside"></div>

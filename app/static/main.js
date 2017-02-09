@@ -1,7 +1,6 @@
 var map = null;
 var locations = [];
-var checked = {};
-var serviceType = {shop: true, track: true};
+var checked = {shop: true, track: true};
 $(document).ready(function () {
     getData();
 
@@ -9,10 +8,34 @@ $(document).ready(function () {
 });
 var geocoder;
 var searchBox;
+
+function goTo(locations) {
+
+    $('.places-list-item').on("click", function (e) {
+        var id = this.id;
+        e.preventDefault();
+        for (var i = 0; i < locations.length; i++) {
+            if (id == locations[i].name) {
+                map.setZoom(17);
+                map.setCenter(locations[i]);
+                $('#description').show();
+                $('#search-div').hide();
+                $('#places').hide();
+                $('#places-tab').show();
+
+                $('.header').text(locations[i].name);
+                $('#website-text').text(locations[i].website).attr("href", locations[i].website);
+                $('#phone-text').text(locations[i].phone);
+                $('#address-text').text(locations[i].address);
+
+            }
+        }
+    })
+
+}
+
 function initMap(locations, things) {
-    var spinner = 20;
     geocoder = new google.maps.Geocoder();
-    var open = false;
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 4,
         center: {lat: 37, lng: -100},
@@ -29,33 +52,6 @@ function initMap(locations, things) {
 
     var input = document.getElementById('new-address');
     searchBox = new google.maps.places.SearchBox(input);
-
-    // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-    function goTo(locations) {
-
-        $('.places-list-item').on("click", function (e) {
-            var id = this.id;
-            e.preventDefault();
-            for (var i = 0; i < locations.length; i++) {
-                if (id == locations[i].name) {
-                    map.setZoom(17);
-                    map.setCenter(locations[i]);
-                    $('#description').show();
-                    $('#search-div').hide();
-                    $('#places').hide();
-                    $('#places-tab').show();
-
-                    $('.header').text(locations[i].name);
-                    $('#website-text').text(locations[i].website).attr("href", marker.website);
-                    $('#phone-text').text(locations[i].phone);
-                    $('#address-text').text(locations[i].address);
-
-                }
-            }
-        })
-
-    }
 
     //noinspection JSUnresolvedVariable,JSUnresolvedFunction
 
@@ -120,9 +116,9 @@ function initMap(locations, things) {
             });
         },
         function (error) {
-            console.log('Cannot detect geolocation.');
+            console.log('Error: ' + error);
             $('#places-load').hide();
-            for (i = 0; i < '12'; i++) {
+            for (i = 0; i < '18'; i++) {
                 $("#places-list").append('<li class="places-list-item" id="' + locations[i].name + '">' + locations[i].name + '</li>');
 
             }
@@ -219,6 +215,13 @@ function initMap(locations, things) {
             markers.push(marker);
         }
     }
+    var marker = new google.maps.Marker({
+        map: map,
+        name: 'Mali',
+        position: {lat: 17.5707, lng: 3.9962}
+    });
+    attachSecretMessage(marker, marker.name);
+    markers.push(marker);
 
 
     var markerCluster = new MarkerClusterer(map, markers,
@@ -457,14 +460,6 @@ function initMap(locations, things) {
         $("#type").append('<li><input class="type" type="checkbox" id="' + o.toLowerCase() + '" name="selector" onclick="checkUncheck(this)" checked><label for="' + o.toLowerCase() + '">' + o + '</label><div class="check"></div></li>');
     });
 
-
-    // if (document.getElementById("shop-checked").checked) {
-    //     alert('hi')
-    // }
-    // else {
-    //     alert('sdfga')
-    // }
-
 }
 
 function getData() {
@@ -495,11 +490,9 @@ function getData() {
 
     });
 }
+
 function checkUncheck(type) {
-    if (type.id === 'track' || type.id === 'shop') {
-serviceType[type.id] = serviceType[type.id] !== true;
-    }
-    else {checked[type.id] = checked[type.id] !== true;}
+    checked[type.id] = checked[type.id] !== true;
     reset(checked)
 
 }
@@ -524,14 +517,16 @@ function reset(checked) {
 
     });
     var finished = [];
+    console.log(checked);
+    var w = 0;
     for (var i = 0; i < locations.length; i++) {
         var k = finished.indexOf(locations[i].name);
-        console.log(k);
         if (finished.indexOf(locations[i].name > 0)) {
             var tags = JSON.parse(locations[i].tags);
             $("#places-list").append('<li class="places-list-item" id="' + locations[i].name + '">' + locations[i].name + '</li>');
-            if (tags.shop/* && serviceType.shop === true*/) {
-                if (tags.tracks && tags.tracks.length > 0) {
+            goTo(locations);
+            if (tags.shop && checked.shop === true) {
+                if (tags.tracks && tags.tracks.length > 0 && checked.track === true) {
                     if (finished.indexOf(locations[i].name)) {
 
                         var Continue = false;
@@ -542,7 +537,6 @@ function reset(checked) {
                         });
 
                         if (Continue === true) {
-                            console.log(locations[i].name);
                             var marker = new google.maps.Marker({
                                 position: locations[i],
                                 map: map,
@@ -556,7 +550,6 @@ function reset(checked) {
                             markers.push(marker);
                         }
                     }
-                    finished.push()
                 }
                 else {
                     var marker = new google.maps.Marker({
@@ -573,7 +566,7 @@ function reset(checked) {
                 }
             }
 
-            else {
+            else if (checked.track === true) {
                 var Continue = false;
                 $.each(tags.tracks, function (l, m) {
                     if (checked[m.material.toLowerCase()] === true && checked[m.location.toLowerCase()] === true && checked[m.type.toLowerCase()] === true) {
@@ -583,7 +576,6 @@ function reset(checked) {
 
 
                 if (Continue === true) {
-                    console.log(locations[i].name);
                     var marker = new google.maps.Marker({
                         position: locations[i],
                         map: map,
@@ -597,16 +589,16 @@ function reset(checked) {
                     markers.push(marker);
                 }
             }
-            finished.push(locations[i].name)
+            finished.push(locations[i].name);
+            w += 1;
         }
+
 
         // }
     }
+    console.log(finished);
     var markerCluster = new MarkerClusterer(map, markers,
         {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-
-    if (document.getElementById("shop-checked").checked = true) {
-    }
 }
 
 function attachSecretMessage(marker, secretMessage) {

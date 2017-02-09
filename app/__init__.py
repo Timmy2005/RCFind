@@ -5,10 +5,12 @@ import os
 ON_HEROKU = os.environ.get('ON_HEROKU')
 
 if ON_HEROKU:
+    print('si')
     # get the heroku port
     port = int(os.environ.get('PORT', 17995))  # as per OP comments default is 17995
     on_heroku = True
 else:
+    print('si')
     port = 3000
     on_heroku = False
 app = Flask(__name__)

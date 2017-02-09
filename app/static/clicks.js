@@ -7,10 +7,11 @@ function clicks() {
     searchClicks();
     extra();
     detectChange();
-    
+
 }
 
 function searchClicks() {
+    var obj = document.getElementById('test');
     $('.search-buttons').on('click', function (e) {
         var id = $(this).attr('id');
 
@@ -20,23 +21,28 @@ function searchClicks() {
 
         if (id === 'menu-button') {
             $('.settings-pane').addClass('settings-pane-open');
-            $('.settings-dim').removeClass('settings-false');
-            $('.settings-dim').addClass('settings-true');
+            obj.style.opacity = "0.3";
+            obj.style.zIndex = "99";
 
         }
 
         if (id === 'back-button') {
             $('.settings-pane').removeClass('settings-pane-open');
-            $('.settings-dim').addClass('settings-false');
-            $('.settings-dim').removeClass('settings-true')
+            obj.style.opacity = "0";
+            setTimeout(function () {
+                obj.style.zIndex = "0";
+            }, 600);
+
         }
 
         e.preventDefault();
     });
     $('.settings-dim').on('click', function (e) {
         $('.settings-pane').removeClass('settings-pane-open');
-        $('.settings-dim').addClass('settings-false');
-        $('.settings-dim').removeClass('settings-true');
+        obj.style.opacity = "0";
+        setTimeout(function () {
+            obj.style.zIndex = "0";
+        }, 600);
         e.preventDefault();
     });
     $('#search-text').keypress(function (event) {
@@ -160,14 +166,6 @@ function newItemError() {
 }
 
 function detectChange() {
-    $('#shop').on('click', function () {
-        serviceType.shop = serviceType.shop !== true;
-        reset(checked)
-    });
-    $('#track').on('click', function () {
-        serviceType.track = serviceType.track !== true;
-        reset(checked)
-    })
 
 }
 
